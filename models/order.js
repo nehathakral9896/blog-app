@@ -1,4 +1,4 @@
-  failedReason: { type: String },
+  // ...existing code...
 const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema({
@@ -41,6 +41,7 @@ const orderSchema = new mongoose.Schema({
     status: { type: String, enum: ['pending', 'assigned', 'accepted', 'rejected', 'picked', 'out-for-delivery', 'delivered', 'failed', 'returned'], default: 'pending' },
     deliveryBoy: { type: mongoose.Schema.Types.ObjectId, ref: 'DeliveryBoy' }
   },
+  failedReason: { type: String },
   createdAt: { type: Date, default: Date.now }
 });
 
