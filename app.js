@@ -9,6 +9,7 @@ const notificationRoutes = require('./routes/notifications');
 const customerRoutes = require('./routes/customers');
 
 const commentRoutes = require('./routes/comments');
+const orderRoutes = require('./routes/orders');
 
 const app = express();
 app.use(express.json());
@@ -31,6 +32,8 @@ app.use('/payments', paymentRoutes);
 app.use('/notifications', notificationRoutes);
 app.use('/customers', customerRoutes);
 
+
 app.use('/comments', commentRoutes);
+app.use('/orders', orderRoutes);
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
