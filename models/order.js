@@ -1,3 +1,4 @@
+  failedReason: { type: String },
 const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema({
@@ -25,6 +26,21 @@ const orderSchema = new mongoose.Schema({
   deliveryAddress: deliveryAddressSchema,
   tracking: [trackingSchema],
   total: { type: Number, required: true },
+  otp: { type: String },
+  deliveryProof: {
+    signature: String,
+    photo: String // URL or file name
+  },
+  paymentMethod: { type: String }, // e.g. COD, online
+  codPayment: {
+    collected: { type: Boolean, default: false },
+    amount: Number,
+    collectedAt: Date
+  },
+  assignment: {
+    status: { type: String, enum: ['pending', 'assigned', 'accepted', 'rejected', 'picked', 'out-for-delivery', 'delivered', 'failed', 'returned'], default: 'pending' },
+    deliveryBoy: { type: mongoose.Schema.Types.ObjectId, ref: 'DeliveryBoy' }
+  },
   createdAt: { type: Date, default: Date.now }
 });
 

@@ -12,7 +12,7 @@ const paymentSchema = new mongoose.Schema({
   },
   method: {
     type: String,
-    enum: ['card', 'cash', 'bank'],
+    enum: ['googlepay', 'phonepe', 'paytm', 'creditcard', 'debitcard', 'cash', 'bank'],
     required: true
   },
   status: {
