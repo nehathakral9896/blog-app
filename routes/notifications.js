@@ -5,6 +5,9 @@ const notificationController = require('../controllers/notificationController');
 // Create a new notification
 router.post('/', notificationController.createNotification);
 
+// Send festival offer notification to all users
+router.post('/festival-offer', notificationController.sendFestivalOffer);
+
 // Get all notifications for a user
 router.get('/user/:userId', notificationController.getUserNotifications);
 

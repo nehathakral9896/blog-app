@@ -12,6 +12,8 @@ const commentRoutes = require('./routes/comments');
 const orderRoutes = require('./routes/orders');
 
 const deliveryBoyRoutes = require('./routes/deliveryBoys');
+const productsRoutes = require('./routes/products');
+const reviewsRoutes = require('./routes/reviews');
 const app = express();
 app.use(express.json());
 
@@ -38,5 +40,7 @@ app.use('/comments', commentRoutes);
 
 app.use('/orders', orderRoutes);
 app.use('/delivery-boys', deliveryBoyRoutes);
+app.use('/products', productsRoutes);
+app.use('/reviews', reviewsRoutes);
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

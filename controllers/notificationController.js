@@ -1,3 +1,20 @@
+const User = require('../models/user');
+// Send special offer notification to all users
+exports.sendFestivalOffer = async (req, res) => {
+  try {
+    const { festival, offer } = req.body;
+    const users = await User.find();
+    const notifications = await Promise.all(users.map(user =>
+      Notification.create({
+        user: user._id,
+        message: `Special offer for ${festival}: ${offer}`
+      })
+    ));
+    res.json({ message: `Offer sent to all users for ${festival}`, notifications });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
 const Notification = require('../models/notification');
 
 exports.createNotification = async (req, res) => {

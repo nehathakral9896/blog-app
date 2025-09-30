@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String },
   age: { type: Number, min: 18 },
+  points: { type: Number, default: 0 },
   provider: {
     type: String,
     enum: ['local', 'facebook', 'instagram', 'google'],
