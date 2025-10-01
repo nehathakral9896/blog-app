@@ -89,6 +89,7 @@ exports.outForDelivery = async (req, res) => {
 };
 
 // Mark order as delivered with OTP, signature, photo
+const Notification = require('../models/notification');
 exports.delivered = async (req, res) => {
   try {
     const { orderId } = req.params;
@@ -97,12 +98,19 @@ exports.delivered = async (req, res) => {
     if (!order) return res.status(404).json({ error: 'Order not found' });
     // Verify OTP if required
     if (order.otp && order.otp !== otp) {
-      return res.status(400).json({ error: 'Invalid OTP' });
+      order.assignment.status = 'pending';
+      await order.save();
+      return res.status(400).json({ error: 'Invalid OTP. Order status set to pending.' });
     }
     order.assignment.status = 'delivered';
     order.tracking.push({ status: 'Delivered' });
     order.deliveryProof = { signature, photo };
     await order.save();
+    // Notify user order delivered
+    await Notification.create({
+      user: order.customer,
+      message: `Your order ${orderId} has been delivered successfully.`
+    });
     res.json({ message: 'Order delivered', order });
   } catch (err) {
     res.status(400).json({ error: err.message });

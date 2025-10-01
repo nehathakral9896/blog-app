@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
   providerId: {
     type: String
   },
+  referralCode: { type: String }, // code user can share
+  referredBy: { type: String }, // code used to register
+  redeemedProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date }
 }, { timestamps: true });

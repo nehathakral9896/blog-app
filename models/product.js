@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
   description: String,
   price: { type: Number, required: true },
   points: { type: Number, default: 0 }, // Points needed to redeem for free
+  inStock: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now }
 });
 

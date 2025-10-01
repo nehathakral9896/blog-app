@@ -6,9 +6,21 @@ const crypto = require('crypto');
 
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, referredBy } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
+    let points = 0;
+    if (referredBy) {
+      points = 20;
+      // Optionally, you can find the referrer and increment their points too
+      const referrer = await User.findOne({ referralCode: referredBy });
+      if (referrer) {
+        referrer.points += 20;
+        await referrer.save();
+      }
+    }
+    // Generate referral code for new user
+    const referralCode = crypto.randomBytes(4).toString('hex');
+    const user = await User.create({ name, email, password: hashedPassword, points, referredBy, referralCode });
     res.status(201).json(user);
   } catch(err) {
     res.status(400).json({ error: err.message });

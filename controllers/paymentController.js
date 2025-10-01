@@ -1,13 +1,37 @@
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 const Payment = require('../models/payment');
 const Order = require('../models/order');
 const Notification = require('../models/notification');
 
 
+
+
 exports.createPayment = async (req, res) => {
   try {
-    const { user, amount, method, orderId } = req.body;
-    const payment = new Payment({ user, amount, method });
+    const { user, amount, method, orderId, stripeToken } = req.body;
+    let codCharge = 0;
+    let tax = 20;
+    let finalAmount = amount + tax;
+    if (method === 'cash' || method === 'cod') {
+      codCharge = 50;
+      finalAmount += codCharge;
+    }
+
+    let stripePaymentId = null;
+    if (method === 'stripe' && stripeToken) {
+      // Create Stripe charge
+      const charge = await stripe.charges.create({
+        amount: Math.round(finalAmount * 100), // Stripe uses paise
+        currency: 'inr',
+        source: stripeToken,
+        description: `Order payment for user ${user}`
+      });
+      stripePaymentId = charge.id;
+    }
+
+    const payment = new Payment({ user, amount: finalAmount, method, stripePaymentId, tax, codCharge });
     await payment.save();
     // Link payment to order
     if (orderId) {

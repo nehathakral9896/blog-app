@@ -42,6 +42,17 @@ const orderSchema = new mongoose.Schema({
     deliveryBoy: { type: mongoose.Schema.Types.ObjectId, ref: 'DeliveryBoy' }
   },
   failedReason: { type: String },
+  returnRequest: {
+    requested: { type: Boolean, default: false },
+    reason: String,
+    status: { type: String, enum: ['pending', 'approved', 'rejected', 'completed'], default: 'pending' }
+  },
+  exchangeRequest: {
+    requested: { type: Boolean, default: false },
+    reason: String,
+    status: { type: String, enum: ['pending', 'approved', 'rejected', 'completed'], default: 'pending' },
+    newProduct: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' }
+  },
   createdAt: { type: Date, default: Date.now }
 });
 

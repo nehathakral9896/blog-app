@@ -3,6 +3,7 @@ const router = express.Router();
 const paymentController = require('../controllers/paymentController');
 
 // Create a new payment
+// Body: { user, amount, method, orderId, stripeToken }
 router.post('/', paymentController.createPayment);
 
 // Get all payments

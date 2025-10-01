@@ -7,4 +7,7 @@ router.get('/', orderController.getOrders);
 router.get('/:id', orderController.getOrderById);
 router.patch('/:id/tracking', orderController.updateTracking);
 
+router.post('/return', orderController.requestReturn);
+router.post('/exchange', orderController.requestExchange);
+
 module.exports = router;

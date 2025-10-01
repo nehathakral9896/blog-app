@@ -12,9 +12,12 @@ const paymentSchema = new mongoose.Schema({
   },
   method: {
     type: String,
-    enum: ['googlepay', 'phonepe', 'paytm', 'creditcard', 'debitcard', 'cash', 'bank'],
+    enum: ['googlepay', 'phonepe', 'paytm', 'creditcard', 'debitcard', 'cash', 'bank', 'stripe', 'upi'],
     required: true
   },
+  stripePaymentId: { type: String },
+  tax: { type: Number, default: 20 },
+  codCharge: { type: Number, default: 0 },
   status: {
     type: String,
     enum: ['pending', 'completed', 'failed'],
